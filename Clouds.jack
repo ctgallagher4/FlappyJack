@@ -1,0 +1,75 @@
+class Clouds {
+
+    field int x;
+    field int y;
+
+    constructor Clouds new (int xLoc, int yLoc) {
+        let x = xLoc;
+        let y = yLoc;   
+        return this;
+    }
+
+    method void update(int count) {
+        /* Updates the position of the cloud object */
+        
+        if ((x < 256) & (x > 0)) {
+            do draw(x, y);
+        }
+
+        if (x < 0) {
+            let x = 220;
+        }
+
+        if (Utils.mod(count, 50) = 0) {
+            let x = x - 1;
+        }
+        return;
+    }
+
+    method void draw(int xLoc, int yLoc) {
+        /* Draws the cloud object */
+        var int memAddress;
+        var int location;
+        let location = (yLoc * 32) + xLoc;
+        let memAddress = 16384+location;
+        do Memory.poke(memAddress, -16384);
+        do Memory.poke(memAddress +32, 28672);
+        do Memory.poke(memAddress +64, 6144);
+        do Memory.poke(memAddress +96, 3072);
+        do Memory.poke(memAddress +128, 1536);
+        do Memory.poke(memAddress +160, 512);
+        do Memory.poke(memAddress +192, 768);
+        do Memory.poke(memAddress +224, 384);
+        do Memory.poke(memAddress +256, 192);
+        do Memory.poke(memAddress +288, 96);
+        do Memory.poke(memAddress +320, 56);
+        do Memory.poke(memAddress +352, 24);
+        do Memory.poke(memAddress +384, 6);
+        do Memory.poke(memAddress +416, 1);
+        do Memory.poke(memAddress +448, 1);
+        do Memory.poke(memAddress +480, 1);
+        do Memory.poke(memAddress +512, -2);
+        do Memory.poke(memAddress +1, 7);
+        do Memory.poke(memAddress +33, 28);
+        do Memory.poke(memAddress +65, 48);
+        do Memory.poke(memAddress +97, 96);
+        do Memory.poke(memAddress +129, 15424);
+        do Memory.poke(memAddress +161, -6592);
+        do Memory.poke(memAddress +193, -32192);
+        do Memory.poke(memAddress +225, 384);
+        do Memory.poke(memAddress +513, -1);
+        do Memory.poke(memAddress +162, 112);
+        do Memory.poke(memAddress +194, 141);
+        do Memory.poke(memAddress +226, 261);
+        do Memory.poke(memAddress +258, 259);
+        do Memory.poke(memAddress +290, 256);
+        do Memory.poke(memAddress +322, 256);
+        do Memory.poke(memAddress +354, 512);
+        do Memory.poke(memAddress +386, 512);
+        do Memory.poke(memAddress +418, 512);
+        do Memory.poke(memAddress +450, 768);
+        do Memory.poke(memAddress +482, 384);
+        do Memory.poke(memAddress +514, 255);
+        return;
+    }
+}

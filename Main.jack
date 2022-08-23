@@ -1,0 +1,67 @@
+class Main {
+
+
+    function void main() {
+
+        //variable declaration
+        var boolean runGame;
+        var Bird bird; 
+        var int birdXLoc;
+        var int birdYLoc;
+        var char keyPressed;
+        var int count;
+        var Clouds clouds;
+        var Pipe pipe1;
+        var Pipe pipe2;
+        var Pipe pipe3;
+        var char pressedChar;
+        var int score;
+        var int integer;
+
+
+        //game initialization
+        let count = 0;
+        let runGame = true;
+        let score = 0;
+
+        //sprite initialization
+        let birdXLoc = 200;
+        let birdYLoc = 30;
+        let bird = Bird.new(birdXLoc, birdYLoc);
+        let integer = Keyboard.readInt("Type a seed to start: ");
+        do LCGRandom.setSeed(integer);
+        let pipe1 = Pipe.new(479);
+        let pipe2 = Pipe.new(650);
+        let pipe3 = Pipe.new(828);
+        let clouds = Clouds.new(220, 10);
+
+        while (runGame) {
+
+            //update sprites 
+            do bird.update(count); //passing in count gives the flappy effect!
+            do clouds.update(count); //passing count slows down the clouds
+            do pipe1.update();
+            do pipe2.update();
+            do pipe3.update();
+
+            //check for collisions and increment score
+            let score = GameUtils.checkPos(bird, pipe1, pipe2, pipe3, score);
+            do GameUtils.displayScore(score);
+
+            //wait 37ms (a value found through testing)
+            do Sys.wait(37); //feel free to change for your system
+
+            //clear entire screen
+            do Screen.clearScreen();
+
+            //update count (useful for adding more animations)
+            let count = count + 1;
+            if (count > 16000) {
+                let count = 0;
+            }
+        }
+
+        return;
+    }
+
+}

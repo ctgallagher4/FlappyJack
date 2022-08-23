@@ -1,0 +1,70 @@
+class Pipe {
+    field int xpos1;
+    field int xpos2;
+    field int random1;
+    field int random2;
+    field int topHeight;
+    field int bottomHeight;
+
+    constructor Pipe new (int xpos) {
+        var boolean trueFalse;
+        let trueFalse = true;
+        let xpos1 = xpos;
+        let xpos2 = xpos1 + 32;
+
+        let random1 = LCGRandom.randRange(50, 150);
+        let random2 = LCGRandom.randRange(75, 150);
+        return this;  
+    }
+
+    method void update() {
+        /* A method to update the pipe's position */
+        if (xpos1 < 0) {
+            let xpos1 = 479;
+            let xpos2 = 511;
+            let random1 = LCGRandom.randRange(50, 150);
+            let random2 = LCGRandom.randRange(75, 150);
+        }
+        if ((xpos1 > 0) & (xpos1 < 479)) {
+            do draw();
+        }
+        let xpos1 = xpos1 - 4;
+        let xpos2 = xpos2 - 4;
+        return;
+
+    }
+    method void draw() {
+        /* A method to draw a pipe*/
+        var int ypos;
+        let ypos = random1 + random2;
+        if (ypos > 254) {
+            let ypos = 206;
+        }
+        do Screen.drawRectangle(xpos1, 0, xpos2, random1);
+        do Screen.drawRectangle(xpos1, ypos, xpos2, 255);
+        return;
+    }
+
+    method int getTopHeight(){
+        /* A getter method to return the top height (remember y is inverted) */
+        return random1;
+    }
+
+    method int getBottomHeight(){
+        /* A getter method to return the bottom height (remember y is inverted) */
+        var int rand;
+        let rand = random1 + random2;
+        return rand;
+    }
+
+    method int getLeftSide(){
+        /* A getter to get the coordinates of the left side of the pipe */
+        return xpos1;
+    }
+
+    method int getRightSide(){
+        /* A getter to get the coordinates fo the right side of the pipe */
+        return xpos2;
+    }
+
+}

@@ -1,0 +1,126 @@
+//static methods
+
+class GameUtils {
+
+    function int checkPos(Bird bird, Pipe pipe1, Pipe pipe2, Pipe pipe3,  int score) {
+        /*  A function to check the bird's position against pipes and walls */
+
+        //initialize variables
+        var int birdYPos;
+        var int birdXPos;
+        var int pipe1TH;
+        var int pipe1BH;
+        var int pipe1LS;
+        var int pipe1RS;
+        var int pipe2TH;
+        var int pipe2BH;
+        var int pipe2LS;
+        var int pipe2RS;
+        var int pipe3TH;
+        var int pipe3BH;
+        var int pipe3LS;
+        var int pipe3RS;
+
+        let birdYPos = bird.getYPos();
+        let birdXPos = bird.getXPos();
+
+        let pipe1TH = pipe1.getTopHeight();
+        let pipe1BH = pipe1.getBottomHeight();
+        let pipe1LS = pipe1.getLeftSide();
+        let pipe1RS = pipe1.getRightSide();
+
+        let pipe2TH = pipe2.getTopHeight();
+        let pipe2BH = pipe2.getBottomHeight();
+        let pipe2LS = pipe2.getLeftSide();
+        let pipe2RS = pipe2.getRightSide();
+
+        let pipe3TH = pipe3.getTopHeight();
+        let pipe3BH = pipe3.getBottomHeight();
+        let pipe3LS = pipe3.getLeftSide();
+        let pipe3RS = pipe3.getRightSide();
+
+        // check floor and ceiling for collision/increment score
+        if ((birdYPos > 235) | (birdYPos < 0 )) {
+            do Sys.wait(500);
+            do GameUtils.endLoop(score);
+            return score;
+        }
+
+        // check for collision with pipe1/increment score
+        if ((birdXPos > pipe1LS) & (birdXPos < pipe1RS)) {
+            let score = score + 1;
+            if ((birdYPos < pipe1TH) | (birdYPos > pipe1BH)) {
+                do Sys.wait(500);
+                do GameUtils.endLoop(score);
+                return score;
+            }
+        }
+
+        //check for collision with pipe2/increment score
+        if ((birdXPos > pipe2LS) & (birdXPos < pipe2RS)) {
+            let score = score + 1;
+            if ((birdYPos < pipe2TH) | (birdYPos > pipe2BH)) {
+                do Sys.wait(500);
+                do GameUtils.endLoop(score);
+                return score;
+            }
+        }
+        //check for collision with pipe3
+        if ((birdXPos > pipe3LS) & (birdXPos < pipe3RS)) {
+            let score = score + 1;
+            if ((birdYPos < pipe3TH) | (birdYPos > pipe3BH)) {
+                do Sys.wait(3000);
+                do GameUtils.endLoop(score);
+                return score;
+            }
+        }
+
+        return score;
+    }
+
+    function void displayScore(int score) {
+        /* A function to display scores in the upper left */
+        do Output.moveCursor(0, 6);
+        do Output.moveCursor(0, 5);
+        do Output.moveCursor(0, 4);
+        do Output.moveCursor(0, 3);
+        do Output.moveCursor(0, 2);
+        do Output.moveCursor(0, 1);
+        do Output.moveCursor(0, 0);
+        do Output.printString("Score: ");
+        do Output.printInt(score);
+        return;
+    }
+
+    function void darkScreen() {
+        /* A function to darken the screen */
+        var int i;
+        let i = 16384;
+        while (i < 24576) {
+            do Memory.poke(i, -1);
+            let i = i + 1;
+        }
+        return;
+    }
+
+    function void endLoop(int score) {
+        /* A function to run the end screen loop, waits for key press */
+        var char key;
+        do Output.moveCursor(0, 6);
+        do Output.moveCursor(0, 5);
+        do Output.moveCursor(0, 4);
+        do Output.moveCursor(0, 3);
+        do Output.moveCursor(0, 2);
+        do Output.moveCursor(0, 1);
+        do Output.moveCursor(0, 0);
+        do GameUtils.darkScreen();
+        do Output.printString("Your Score is: ");
+        do Output.printInt(score);
+        do Output.println();
+        do Output.printString("Press a key to End");
+        let key = Keyboard.readChar();
+        do Sys.halt();
+        return;
+    }
+
+}
